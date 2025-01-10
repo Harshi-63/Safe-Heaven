@@ -2,4 +2,46 @@
 <resources>
 
     <style name="Theme.Safe_heaven" parent="android:Theme.Material.Light.NoActionBar" />
+    /* 1. Calm and Trustworthy (Blue Theme)
+    •	Background: Light Blue (#EAF6FF) or White (#FFFFFF)
+    •	Buttons:
+    o	Primary: Deep Blue (#1D3557)
+    o	Secondary: Light Blue (#A8DADC)
+    •	Text:
+    o	Headlines: Dark Blue (#023047)
+    o	Body: Grey (#495057)
+    •	Accents: Orange (#FFA500) for call-to-action buttons or alerts.
+    •	Icons: Blue shades with white for contrast.
+    2. Modern and Sleek (Dark Mode)
+    •	Background: Dark Grey (#121212)
+    •	Buttons:
+    o	Primary: Bright Blue (#2196F3)
+    o	Secondary: Greyish Blue (#37474F)
+    •	Text:
+    o	Headlines: White (#FFFFFF)
+    o	Body: Light Grey (#E0E0E0)
+    •	Accents: Neon Green (#64FFDA) or Bright Orange (#FF9800) for highlights.
+    •	Icons: Neon or white on dark backgrounds.
+*/
+    <!-- Purple Shades -->
+    <color name="purple_80">#D0BCFF</color>
+    <color name="purple_grey_80">#CCC2DC</color>
+    <color name="pink_80">#EFB8C8</color>
+
+    <color name="purple_40">#6650A4</color>
+    <color name="purple_grey_40">#625B71</color>
+    <color name="pink_40">#7D5260</color>
+
+    <!-- Custom Theme Colors -->
+    <color name="background_blue">#EAF6FF</color>
+    <color name="dark_btn">#1D3557</color>
+    <color name="light_btn">#A8DADC</color>
+    <color name="primary_txt">#023047</color>
+    <color name="secondary_txt">#495057</color>
+    <color name="focused_border">#1A2C48</color>
+    <color name="default_border">#D1D5DB</color>
+    <color name="placeholder_txt">#ADB5BD</color>
+    <color name="input_txt">#023047</color>
+    <color name="error">#D32F2F</color>
+    <color name="focusedTxtBox">CED8E0</color>
 </resources>
