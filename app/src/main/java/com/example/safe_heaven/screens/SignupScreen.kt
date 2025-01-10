@@ -34,6 +34,7 @@ fun Signupcreen() {
             NormalTextComponent(value = stringResource(R.string.hello))
             HeadingTextComponent(value = stringResource(R.string.create_account))
             MyTextfield(labelValue = stringResource(R.string.fName))
+            MyTextfield(labelValue = stringResource(R.string.sName))
         }
         }
     }
