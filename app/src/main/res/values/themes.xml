@@ -43,4 +43,5 @@
     <color name="placeholder_txt">#ADB5BD</color>
     <color name="input_txt">#023047</color>
     <color name="error">#D32F2F</color>
+    <color name="focusedTxtBox">CED8E0</color>
 </resources>
