@@ -5,11 +5,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.safe_heaven.screens.SignupScreen
 
 @Composable
 fun SafeHeaven(){
     Surface (
         modifier = Modifier.fillMaxSize(),
         color = Color.White
-    ){  }
+    ){
+        SignupScreen()
+    }
 }
