@@ -6,4 +6,8 @@
     <string name="fName">First Name</string>
     <string name="sName">Last Name</string>
     <string name="mail">E-mail</string>
+    <string name="hide_pwd">Hide Password</string>
+    <string name="show_pwd">Show Password</string>
+    <string name="pwd">Password</string>
+    <string name="t_and_c">By checking this box, you are agreeing to our terms of services.</string>
 </resources>
