@@ -69,6 +69,7 @@ fun HeadingTextComponent(value: String){
             fontSize = 26.sp,
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Bold
+
         ),
         color = PrimaryTxt,
         textAlign = TextAlign.Center
