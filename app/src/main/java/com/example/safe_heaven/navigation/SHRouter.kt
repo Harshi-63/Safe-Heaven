@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 sealed class Screen{
     object SignUpScreen : Screen()
     object TandCScreen : Screen()
+    object LoginScreen : Screen()
 }
 object SHRouter {
 

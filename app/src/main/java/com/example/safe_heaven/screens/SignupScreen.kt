@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.example.safe_heaven.R
 import com.example.safe_heaven.components.ButtonComponent
 import com.example.safe_heaven.components.CheckboxComponent
+import com.example.safe_heaven.components.ClickableLoginTextComponent
+import com.example.safe_heaven.components.DividerTextComponent
 import com.example.safe_heaven.components.HeadingTextComponent
 import com.example.safe_heaven.components.MyPwdField
 import com.example.safe_heaven.components.MyTextfield
@@ -51,6 +53,13 @@ fun SignupScreen(){
            })
            Spacer(modifier= Modifier.height(30.dp))
            ButtonComponent(value = stringResource(id = R.string.register))
+           Spacer(modifier= Modifier.height(50.dp))
+           DividerTextComponent()
+
+           ClickableLoginTextComponent(tryingToLogin = true, onTextSelected = {
+               SHRouter.navigateTo(Screen.LoginScreen)
+           })
+
        }
     }
 }

@@ -24,7 +24,7 @@ fun TAndCScreen(){
         .fillMaxSize()
         .background(color = Color.White)
         .padding(16.dp)) {
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         HeadingTextComponent(value = stringResource(id = R.string.terms_of_use))
     }
     BackHandler {
