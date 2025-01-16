@@ -1,16 +1,22 @@
 package com.example.safe_heaven.components
 
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,23 +28,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.VerticalAlignmentLine
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.safe_heaven.R
+import com.example.safe_heaven.ui.theme.DarkBtn
 import com.example.safe_heaven.ui.theme.FocusedBorder
-import com.example.safe_heaven.ui.theme.PlaceholderTxt
+import com.example.safe_heaven.ui.theme.LightBtn
 import com.example.safe_heaven.ui.theme.PrimaryTxt
 import com.example.safe_heaven.ui.theme.SecondaryTxt
 import com.example.safe_heaven.ui.theme.focusedTextBox
@@ -153,7 +162,7 @@ fun MyPwdField(labelValue: String, painterResource: Painter) {
     )
 }
 @Composable
-fun CheckboxComponent(value: String){
+fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit){
     Row (
         modifier = Modifier.fillMaxWidth().heightIn(56.dp).padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -164,7 +173,65 @@ fun CheckboxComponent(value: String){
         Checkbox(checked = checkedState.value, onCheckedChange = {
             checkedState.value!= checkedState.value
         })
-        NormalTextComponent(value)
+        ClickableTextComponent(value = value, onTextSelected)
     }
 }
+
+@Composable
+fun ClickableTextComponent(value: String , onTextSelected: (String)->Unit){
+    val initialText= "By continuing this you are agreeing our "
+    val privPolicy = "Privacy Policy "
+    val and = "and"
+    val tAndCtext =" Terms and Conditions"
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = PrimaryTxt)){
+            pushStringAnnotation(tag = privPolicy, annotation = privPolicy)
+            append(privPolicy)
+        }
+        append(and)
+        withStyle(style = SpanStyle(color = PrimaryTxt)){
+            pushStringAnnotation(tag = tAndCtext, annotation = tAndCtext)
+            append(tAndCtext)
+        }
+    }
+    ClickableText(text= annotatedString, onClick ={
+        offset->
+        annotatedString.getStringAnnotations(offset,offset)
+            .firstOrNull()?.also { span->
+                Log.d("Clickable Text Component","{$span}")
+
+                if(span.item == tAndCtext || span.item==privPolicy) {
+                    onTextSelected(span.item)
+                }
+            }
+    })
+}
+
+@Composable
+fun ButtonComponent(value: String){
+    Button(onClick = {/*todo*/},
+        modifier = Modifier.fillMaxWidth()
+            .heightIn(48.dp),
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth()
+                .heightIn(48.dp)
+                .background(brush = Brush.horizontalGradient(listOf(DarkBtn, LightBtn)),
+                    shape = RoundedCornerShape(50.dp)
+                ),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text =value,
+                fontSize = 18.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+
 

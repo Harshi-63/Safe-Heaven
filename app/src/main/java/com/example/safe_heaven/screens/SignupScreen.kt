@@ -14,11 +14,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.safe_heaven.R
+import com.example.safe_heaven.components.ButtonComponent
 import com.example.safe_heaven.components.CheckboxComponent
 import com.example.safe_heaven.components.HeadingTextComponent
 import com.example.safe_heaven.components.MyPwdField
 import com.example.safe_heaven.components.MyTextfield
 import com.example.safe_heaven.components.NormalTextComponent
+import com.example.safe_heaven.navigation.SHRouter
+import com.example.safe_heaven.navigation.Screen
 import com.example.safe_heaven.ui.theme.BackgroundBlue
 
 
@@ -35,6 +38,7 @@ fun SignupScreen(){
            .fillMaxSize()
            .background(BackgroundBlue))
        {
+           Spacer(modifier = Modifier.height(80.dp))
            NormalTextComponent(value= stringResource(id= R.string.hello))
            HeadingTextComponent(value = stringResource(id=R.string.create_account))
            Spacer(modifier = Modifier.height(20.dp))
@@ -42,7 +46,11 @@ fun SignupScreen(){
            MyTextfield(labelValue = stringResource(id = R.string.sName), painterResource = painterResource(id = R.drawable.profiile))
            MyTextfield(labelValue = stringResource(id = R.string.mail), painterResource = painterResource(id = R.drawable.mail))
            MyPwdField(labelValue = stringResource(id=R.string.pwd), painterResource = painterResource(id = R.drawable.pwd))
-           CheckboxComponent(value = stringResource(id=R.string.t_and_c))
+           CheckboxComponent(value = stringResource(id=R.string.t_and_c), onTextSelected = {
+               SHRouter.navigateTo(Screen.TandCScreen)
+           })
+           Spacer(modifier= Modifier.height(30.dp))
+           ButtonComponent(value = stringResource(id = R.string.register))
        }
     }
 }
