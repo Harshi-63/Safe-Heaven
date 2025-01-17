@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -31,16 +33,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,17 +54,18 @@ import com.example.safe_heaven.ui.theme.DarkBtn
 import com.example.safe_heaven.ui.theme.FocusedBorder
 import com.example.safe_heaven.ui.theme.LightBtn
 import com.example.safe_heaven.ui.theme.PrimaryTxt
+import com.example.safe_heaven.ui.theme.PurpleGrey80
 import com.example.safe_heaven.ui.theme.SecondaryTxt
 import com.example.safe_heaven.ui.theme.focusedTextBox
 import androidx.compose.material3.Text as Text1
 
 @Composable
-fun NormalTextComponent(value: String){
+fun NormalTextComponent(value: String) {
     Text1(
-        text=value,
+        text = value,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min=40.dp),
+            .heightIn(min = 40.dp),
         style = TextStyle(
             fontSize = 20.sp,
             fontStyle = FontStyle.Normal,
@@ -69,11 +75,14 @@ fun NormalTextComponent(value: String){
         textAlign = TextAlign.Center
     )
 }
+
 @Composable
-fun HeadingTextComponent(value: String){
+fun HeadingTextComponent(value: String) {
     Text1(
-        text=value,
-        modifier = Modifier.fillMaxWidth().heightIn(),
+        text = value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(),
         style = TextStyle(
             fontSize = 26.sp,
             fontStyle = FontStyle.Normal,
@@ -84,48 +93,20 @@ fun HeadingTextComponent(value: String){
         textAlign = TextAlign.Center
     )
 }
+
 @Composable
-fun MyTextfield(labelValue:String,painterResource:Painter){
-    val textValue=remember {
+fun MyTextfield(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
+    val textValue = remember {
         mutableStateOf("")
     }
-     OutlinedTextField(
-         modifier = Modifier
-             .fillMaxWidth()
-             .background(
-                 shape = RoundedCornerShape(10.dp),
-                 color = Color.Transparent
-             ),
-        label = {Text(labelValue)},
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = FocusedBorder,
-            focusedLabelColor = PrimaryTxt,
-            focusedContainerColor = focusedTextBox,
-            unfocusedContainerColor = Color.White
-        ),
-        keyboardOptions = KeyboardOptions.Default,
-        value = textValue.value,
-         //OutlinedTextField expects a String for value, not a MutableState<String>
-        onValueChange = { newValue->
-            textValue.value= newValue
-        },
-         leadingIcon={
-             Icon(painter= painterResource, contentDescription = "")
-        }
-     )
-}
-@Composable
-fun MyPwdField(labelValue: String, painterResource: Painter) {
-    val pwd = remember { mutableStateOf("") }
-    val passwordVisible = remember { mutableStateOf(false) }
-
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(90.dp),
                 color = Color.Transparent
             ),
+        shape = RoundedCornerShape(34.dp),
         label = { Text(labelValue) },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = FocusedBorder,
@@ -133,9 +114,56 @@ fun MyPwdField(labelValue: String, painterResource: Painter) {
             focusedContainerColor = focusedTextBox,
             unfocusedContainerColor = Color.White
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        singleLine = true,
+        maxLines = 1,
+        value = textValue.value,
+        //OutlinedTextField expects a String for value, not a MutableState<String>
+        onValueChange = { newValue ->
+            textValue.value = newValue
+            onTextSelected(newValue)
+        },
+        leadingIcon = {
+            Icon(painter = painterResource, contentDescription = "")
+        },
+    )
+}
+
+@Composable
+fun MyPwdField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
+    val localFocusManager = LocalFocusManager.current
+    val pwd = remember { mutableStateOf("") }
+    val passwordVisible = remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                shape = RoundedCornerShape(80.dp),
+                color = Color.Transparent
+            ),
+        label = { Text(labelValue) },
+        shape = RoundedCornerShape(34.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = FocusedBorder,
+            focusedLabelColor = PrimaryTxt,
+            focusedContainerColor = focusedTextBox,
+            unfocusedContainerColor = Color.White
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
+        ),
+        singleLine = true,
+        keyboardActions = KeyboardActions {
+            localFocusManager.clearFocus()
+        },
+        maxLines = 1,
         value = pwd.value,
-        onValueChange = { newValue -> pwd.value = newValue },
+        onValueChange = { newValue ->
+            pwd.value = newValue
+            onTextSelected(newValue)
+        },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = null)
         },
@@ -161,47 +189,50 @@ fun MyPwdField(labelValue: String, painterResource: Painter) {
         }
     )
 }
+
 @Composable
-fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit){
-    Row (
-        modifier = Modifier.fillMaxWidth().heightIn(56.dp).padding(16.dp),
+fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(56.dp)
+            .padding(6.dp),
         verticalAlignment = Alignment.CenterVertically,
-    ){
-        val checkedState= remember {
+    ) {
+        val checkedState = remember {
             mutableStateOf(false)
         }
         Checkbox(checked = checkedState.value, onCheckedChange = {
-            checkedState.value!= checkedState.value
+            checkedState.value != checkedState.value
         })
         ClickableTextComponent(value = value, onTextSelected)
     }
 }
 
 @Composable
-fun ClickableTextComponent(value: String , onTextSelected: (String)->Unit){
-    val initialText= "By continuing this you are agreeing our "
+fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
+    val initialText = "By continuing this you are agreeing our "
     val privPolicy = "Privacy Policy "
     val and = "and"
-    val tAndCtext =" Terms and Conditions"
+    val tAndCtext = " Terms and Conditions"
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = PrimaryTxt)){
+        withStyle(style = SpanStyle(color = PrimaryTxt)) {
             pushStringAnnotation(tag = privPolicy, annotation = privPolicy)
             append(privPolicy)
         }
         append(and)
-        withStyle(style = SpanStyle(color = PrimaryTxt)){
+        withStyle(style = SpanStyle(color = PrimaryTxt)) {
             pushStringAnnotation(tag = tAndCtext, annotation = tAndCtext)
             append(tAndCtext)
         }
     }
-    ClickableText(text= annotatedString, onClick ={
-        offset->
-        annotatedString.getStringAnnotations(offset,offset)
-            .firstOrNull()?.also { span->
-                Log.d("Clickable Text Component","{$span}")
+    ClickableText(text = annotatedString, onClick = { offset ->
+        annotatedString.getStringAnnotations(offset, offset)
+            .firstOrNull()?.also { span ->
+                Log.d("Clickable Text Component", "{$span}")
 
-                if(span.item == tAndCtext || span.item==privPolicy) {
+                if (span.item == tAndCtext || span.item == privPolicy) {
                     onTextSelected(span.item)
                 }
             }
@@ -209,28 +240,118 @@ fun ClickableTextComponent(value: String , onTextSelected: (String)->Unit){
 }
 
 @Composable
-fun ButtonComponent(value: String){
-    Button(onClick = {/*todo*/},
-        modifier = Modifier.fillMaxWidth()
+fun ButtonComponent(value: String, onButtonClicked: () -> Unit) {
+    Button(
+        onClick = {onButtonClicked.invoke() },
+        modifier = Modifier
+            .fillMaxWidth()
             .heightIn(48.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .heightIn(48.dp)
-                .background(brush = Brush.horizontalGradient(listOf(DarkBtn, LightBtn)),
+                .background(
+                    brush = Brush.horizontalGradient(listOf(DarkBtn, LightBtn)),
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Text(
-                text =value,
+                text = value,
                 fontSize = 18.sp,
                 color = Color.White,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold
+            )
         }
     }
+}
+
+@Composable
+fun DividerTextComponent() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            color = PurpleGrey80,
+            thickness = 1.dp
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "or",
+            fontSize = 18.sp,
+            color = SecondaryTxt
+        )
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            color = PurpleGrey80,
+            thickness = 1.dp
+        )
+    }
+}
+
+
+@Composable
+fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
+    val initialText =
+        if (tryingToLogin) stringResource(R.string.already_have_an_account) else (stringResource(R.string.don_t_have_a_account_yet))
+    val loginText = if (tryingToLogin) " Login" else " Register"
+    val annotatedString = buildAnnotatedString {
+        append(initialText)
+        withStyle(style = SpanStyle(color = PrimaryTxt)) {
+            pushStringAnnotation(tag = loginText, annotation = loginText)
+            append(loginText)
+        }
+
+    }
+    ClickableText(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 15.sp,
+            fontStyle = FontStyle.Normal,
+            fontWeight = FontWeight.Normal,
+            textAlign = TextAlign.Center
+        ),
+        text = annotatedString, onClick = { offset ->
+            annotatedString.getStringAnnotations(offset, offset)
+                .firstOrNull()?.also { span ->
+                    Log.d("Clickable Text Component", "{$span}")
+
+                    if (span.item == loginText) {
+                        onTextSelected(span.item)
+                    }
+                }
+        })
+
+}
+
+@Composable
+fun UnderlinedTextComponent(value: String) {
+    Text1(
+        text = value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 14.sp,
+            fontStyle = FontStyle.Normal,
+            fontWeight = FontWeight.Normal
+        ),
+
+        color = SecondaryTxt,
+        textAlign = TextAlign.Center,
+        textDecoration = TextDecoration.Underline
+    )
 }
 
 
