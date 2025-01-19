@@ -95,7 +95,10 @@ fun HeadingTextComponent(value: String) {
 }
 
 @Composable
-fun MyTextfield(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
+fun MyTextfield(
+    labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit,
+    errorStatus: Boolean,
+) {
     val textValue = remember {
         mutableStateOf("")
     }
@@ -130,7 +133,12 @@ fun MyTextfield(labelValue: String, painterResource: Painter, onTextSelected: (S
 }
 
 @Composable
-fun MyPwdField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
+fun MyPwdField(
+    labelValue: String,
+    painterResource: Painter,
+    onTextSelected: (String) -> Unit,
+    errorStatus: Boolean,
+) {
     val localFocusManager = LocalFocusManager.current
     val pwd = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
@@ -242,7 +250,7 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 @Composable
 fun ButtonComponent(value: String, onButtonClicked: () -> Unit) {
     Button(
-        onClick = {onButtonClicked.invoke() },
+        onClick = { onButtonClicked.invoke() },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),

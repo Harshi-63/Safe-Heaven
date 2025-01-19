@@ -49,34 +49,45 @@ fun SignupScreen(loginViewModel: LoginViewModel = viewModel()) {
             NormalTextComponent(value = stringResource(id = R.string.hello))
             HeadingTextComponent(value = stringResource(id = R.string.create_account))
             Spacer(modifier = Modifier.height(20.dp))
-            MyTextfield(labelValue = stringResource(id = R.string.fName),
+            MyTextfield(
+                labelValue = stringResource(id = R.string.fName),
                 painterResource = painterResource(id = R.drawable.profiile),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.FirstNameChanges(it))
-                })
-            MyTextfield(labelValue = stringResource(id = R.string.sName),
+                },
+                errorStatus =loginViewModel.registrationUIState.value.fNameError
+            )
+            MyTextfield(
+                labelValue = stringResource(id = R.string.sName),
                 painterResource = painterResource(id = R.drawable.profiile),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.LastNameChanges(it))
-                })
-            MyTextfield(labelValue = stringResource(id = R.string.mail),
+                },
+                errorStatus = loginViewModel.registrationUIState.value.lasNameError
+            )
+            MyTextfield(
+                labelValue = stringResource(id = R.string.mail),
                 painterResource = painterResource(id = R.drawable.mail),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.EmailChanges(it))
-                })
+                },
+                errorStatus = loginViewModel.registrationUIState.value.emailError
+            )
             MyPwdField(
                 labelValue = stringResource(id = R.string.pwd),
                 painterResource = painterResource(id = R.drawable.pwd),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.PasswordChanges(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.passwordError
             )
             CheckboxComponent(value = stringResource(id = R.string.t_and_c), onTextSelected = {
                 SHRouter.navigateTo(Screen.TandCScreen)
             })
             Spacer(modifier = Modifier.height(30.dp))
-            ButtonComponent(value = stringResource(id = R.string.register),
-                onButtonClicked ={
+            ButtonComponent(
+                value = stringResource(id = R.string.register),
+                onButtonClicked = {
                     loginViewModel.onEvent(UIEvents.RegisterButtonClicked)
                 })
             Spacer(modifier = Modifier.height(50.dp))

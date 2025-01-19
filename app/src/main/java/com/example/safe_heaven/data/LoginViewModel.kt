@@ -2,11 +2,11 @@ package com.example.safe_heaven.data
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
+import com.example.safe_heaven.data.rules.Validator
 
 class LoginViewModel : ViewModel() {
-    private val TAG =LoginViewModel::class.simpleName
+    private val TAG = LoginViewModel::class.simpleName
     var registrationUIState = mutableStateOf(RegistrationUIState())
 
     fun onEvent(event: UIEvents) {
@@ -34,19 +34,48 @@ class LoginViewModel : ViewModel() {
                     password = event.password
                 )
             }
-            is UIEvents.RegisterButtonClicked ->{
+
+            is UIEvents.RegisterButtonClicked -> {
                 signUp()
             }
         }
     }
 
     private fun signUp() {
-        Log.d(TAG,"inside signup func")
+        Log.d(TAG, "inside signup func")
         printState()
+        validateDataWithRules()
     }
 
-    private fun printState(){
-        Log.d(TAG,"Inside printState")
-        Log.d(TAG,registrationUIState.value.toString())
+    private fun validateDataWithRules() {
+        val fNameResult = Validator.validateFirstName(
+            fName = registrationUIState.value.firstName
+        )
+
+        val sNameResult = Validator.validateLastName(
+            sName = registrationUIState.value.lasName
+        )
+        val emailResult = Validator.validateEmail(
+            mail = registrationUIState.value.email
+        )
+        val pwdResult = Validator.validatePassword(
+            password = registrationUIState.value.password
+        )
+        Log.d(TAG, "FName =$fNameResult")
+        Log.d(TAG, "LName= $sNameResult")
+        Log.d(TAG, "Email = $emailResult")
+        Log.d(TAG, "Password = $pwdResult")
+
+        registrationUIState.value = registrationUIState.value.copy(
+            fNameError = fNameResult.status,
+            lasNameError = sNameResult.status,
+            emailError = emailResult.status,
+            passwordError = pwdResult.status
+        )
+    }
+
+    private fun printState() {
+        Log.d(TAG, "Inside printState")
+        Log.d(TAG, registrationUIState.value.toString())
     }
 }

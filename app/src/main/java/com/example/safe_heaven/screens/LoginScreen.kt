@@ -54,19 +54,21 @@ fun LoginScreen(loginViewModel: LoginViewModel=viewModel()) {
                 painterResource = painterResource(id = R.drawable.mail),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.EmailChanges(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.emailError
             )
             MyPwdField(
                 labelValue = stringResource(id = R.string.pwd),
                 painterResource = painterResource(id = R.drawable.pwd),
                 onTextSelected = {
                     loginViewModel.onEvent(UIEvents.PasswordChanges(it))
-                }
+                },
+                errorStatus = loginViewModel.registrationUIState.value.passwordError
             )
             Spacer(modifier = Modifier.height(10.dp))
             UnderlinedTextComponent(value = stringResource(R.string.forgot_pwd))
             Spacer(modifier = Modifier.height(40.dp))
-            ButtonComponent(value = stringResource(id = R.string.login))
+            ButtonComponent(value = stringResource(id = R.string.login), onButtonClicked = { loginViewModel.onEvent(UIEvents.RegisterButtonClicked) })
             Spacer(modifier = Modifier.height(50.dp))
             DividerTextComponent()
             ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
