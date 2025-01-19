@@ -10,29 +10,34 @@ class LoginViewModel : ViewModel() {
     var registrationUIState = mutableStateOf(RegistrationUIState())
 
     fun onEvent(event: UIEvents) {
+        validateDataWithRules()
         when (event) {
             is UIEvents.FirstNameChanges -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     firstName = event.firstName
                 )
+                printState()
             }
 
             is UIEvents.LastNameChanges -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     lasName = event.lastName
                 )
+                printState()
             }
 
             is UIEvents.EmailChanges -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     email = event.email
                 )
+                printState()
             }
 
             is UIEvents.PasswordChanges -> {
                 registrationUIState.value = registrationUIState.value.copy(
                     password = event.password
                 )
+                printState()
             }
 
             is UIEvents.RegisterButtonClicked -> {
