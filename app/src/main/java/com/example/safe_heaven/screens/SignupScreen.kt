@@ -89,7 +89,9 @@ fun SignupScreen(loginViewModel: LoginViewModel = viewModel()) {
                 value = stringResource(id = R.string.register),
                 onButtonClicked = {
                     loginViewModel.onEvent(UIEvents.RegisterButtonClicked)
-                })
+                },
+
+                )
             Spacer(modifier = Modifier.height(50.dp))
             DividerTextComponent()
 

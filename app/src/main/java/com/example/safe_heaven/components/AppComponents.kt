@@ -1,6 +1,7 @@
 package com.example.safe_heaven.components
 
 
+import android.content.pm.PackageManager.ComponentEnabledSetting
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -97,7 +98,7 @@ fun HeadingTextComponent(value: String) {
 @Composable
 fun MyTextfield(
     labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit,
-    errorStatus: Boolean,
+    errorStatus: Boolean = false,
 ) {
     val textValue = remember {
         mutableStateOf("")
@@ -129,6 +130,7 @@ fun MyTextfield(
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
+        isError = !errorStatus
     )
 }
 
@@ -137,7 +139,7 @@ fun MyPwdField(
     labelValue: String,
     painterResource: Painter,
     onTextSelected: (String) -> Unit,
-    errorStatus: Boolean,
+    errorStatus: Boolean = false,
 ) {
     val localFocusManager = LocalFocusManager.current
     val pwd = remember { mutableStateOf("") }
@@ -194,7 +196,8 @@ fun MyPwdField(
             VisualTransformation.None
         } else {
             PasswordVisualTransformation()
-        }
+        },
+        isError = !errorStatus
     )
 }
 
@@ -248,14 +251,15 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
 }
 
 @Composable
-fun ButtonComponent(value: String, onButtonClicked: () -> Unit) {
+fun ButtonComponent(value: String, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {
     Button(
         onClick = { onButtonClicked.invoke() },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(Color.Transparent)
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        enabled = isEnabled
     ) {
         Box(
             modifier = Modifier
